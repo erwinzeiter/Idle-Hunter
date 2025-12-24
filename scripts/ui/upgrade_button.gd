@@ -29,8 +29,7 @@ func _on_pressed() -> void:
 	if upgrade_data == null:
 		return
 	
-	var current_level: int = GameState.get_upgrade_level(upgrade_data.id)
-	var cost: float = upgrade_data.get_cost_for_level(current_level)
+	var cost: float = _get_current_cost()
 	
 	# Purchase upgrade with stat modifier through GameState
 	# This keeps all game logic in GameState
@@ -41,6 +40,10 @@ func _on_pressed() -> void:
 		upgrade_data.stat_to_modify,
 		upgrade_data.stat_modifier_per_level
 	)
+
+func _get_current_cost() -> float:
+	var current_level: int = GameState.get_upgrade_level(upgrade_data.id)
+	return upgrade_data.get_cost_for_level(current_level)
 
 func _on_currency_changed(_currency_type: String, _new_amount: float) -> void:
 	_update_display()
@@ -54,7 +57,7 @@ func _update_display() -> void:
 		return
 	
 	var current_level: int = GameState.get_upgrade_level(upgrade_data.id)
-	var cost: float = upgrade_data.get_cost_for_level(current_level)
+	var cost: float = _get_current_cost()
 	var can_afford: bool = GameState.can_afford(upgrade_data.currency_type, cost)
 	var can_level: bool = upgrade_data.can_level_up(current_level)
 	

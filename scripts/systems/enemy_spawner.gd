@@ -21,6 +21,11 @@ signal enemy_killed(enemy_type: String, souls_reward: float)
 @export var spawn_area_min: Vector2 = Vector2(100, 100)
 @export var spawn_area_max: Vector2 = Vector2(1820, 980)
 
+## Base souls values for different enemy types
+@export var basic_enemy_souls: float = 1.0
+@export var elite_enemy_souls: float = 5.0
+@export var boss_enemy_souls: float = 20.0
+
 var _active_enemy_count: int = 0
 var _spawn_timer: float = 0.0
 
@@ -65,13 +70,13 @@ func kill_enemy(enemy_type: String) -> void:
 func _get_enemy_souls_value(enemy_type: String) -> float:
 	match enemy_type:
 		"basic":
-			return 1.0
+			return basic_enemy_souls
 		"elite":
-			return 5.0
+			return elite_enemy_souls
 		"boss":
-			return 20.0
+			return boss_enemy_souls
 		_:
-			return 1.0
+			return basic_enemy_souls
 
 func _on_enemy_killed(_enemy_type: String, _souls_reward: float) -> void:
 	# Additional logic when enemies are killed

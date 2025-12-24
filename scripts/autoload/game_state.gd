@@ -79,7 +79,13 @@ var session_data: Dictionary = {
 
 var _save_path: String = "user://savegame.save"
 var _auto_save_timer: float = 0.0
-var _auto_save_interval: float = 60.0  # Auto-save every 60 seconds
+
+## Auto-save interval in seconds (configurable)
+@export var auto_save_interval: float = 60.0
+
+## Maximum offline progress time in hours
+const MAX_OFFLINE_HOURS: float = 8.0
+const SECONDS_PER_HOUR: float = 3600.0
 
 # ============================================================================
 # GODOT LIFECYCLE
@@ -96,7 +102,7 @@ func _process(delta: float) -> void:
 	
 	# Auto-save timer
 	_auto_save_timer += delta
-	if _auto_save_timer >= _auto_save_interval:
+	if _auto_save_timer >= auto_save_interval:
 		_auto_save_timer = 0.0
 		save_game()
 
@@ -331,8 +337,7 @@ func load_game() -> void:
 ## Calculate offline progress (passive income while away)
 func _calculate_offline_progress(offline_seconds: float) -> void:
 	# Cap offline progress to prevent exploitation
-	var max_offline_hours: float = 8.0
-	var capped_seconds: float = min(offline_seconds, max_offline_hours * 3600.0)
+	var capped_seconds: float = min(offline_seconds, MAX_OFFLINE_HOURS * SECONDS_PER_HOUR)
 	
 	# Apply passive income for offline time
 	apply_passive_income(capped_seconds)
