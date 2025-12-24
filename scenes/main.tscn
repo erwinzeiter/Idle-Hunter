@@ -1,0 +1,111 @@
+[gd_scene load_steps=6 format=3 uid="uid://cuwgdyevgr4yq"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/ui/currency_display.gd" id="2_currency"]
+[ext_resource type="Script" path="res://scripts/ui/stat_display.gd" id="3_stat"]
+[ext_resource type="Script" path="res://scripts/systems/upgrade_manager.gd" id="4_upgrade_manager"]
+[ext_resource type="Script" path="res://scripts/systems/enemy_spawner.gd" id="5_enemy_spawner"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Idle Hunter"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SoulsLabel" type="Label" parent="UI/MarginContainer/VBoxContainer/Stats"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Souls: 0"
+script = ExtResource("2_currency")
+currency_type = "souls"
+format_string = "Souls: %s"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/MarginContainer/VBoxContainer/Stats"]
+layout_mode = 2
+
+[node name="DamageLabel" type="Label" parent="UI/MarginContainer/VBoxContainer/Stats"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Damage: 1.0"
+script = ExtResource("3_stat")
+stat_name = "damage"
+format_string = "Damage: %s"
+
+[node name="HSeparator3" type="HSeparator" parent="UI/MarginContainer/VBoxContainer/Stats"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="UI/MarginContainer/VBoxContainer/Stats"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Speed: 100"
+script = ExtResource("3_stat")
+stat_name = "speed"
+format_string = "Speed: %s"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlsLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Click on enemies to kill them and earn souls!"
+
+[node name="HSeparator3" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UpgradesLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Upgrades"
+
+[node name="UpgradesContainer" type="VBoxContainer" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator4" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BottomControls" type="HBoxContainer" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="UI/MarginContainer/VBoxContainer/BottomControls"]
+layout_mode = 2
+text = "Save Game"
+
+[node name="TestKillButton" type="Button" parent="UI/MarginContainer/VBoxContainer/BottomControls"]
+layout_mode = 2
+text = "Test Kill Enemy (+Souls)"
+
+[node name="Systems" type="Node" parent="."]
+
+[node name="UpgradeManager" type="Node" parent="Systems"]
+script = ExtResource("4_upgrade_manager")
+
+[node name="EnemySpawner" type="Node" parent="Systems"]
+script = ExtResource("5_enemy_spawner")
+spawn_rate = 0.5
