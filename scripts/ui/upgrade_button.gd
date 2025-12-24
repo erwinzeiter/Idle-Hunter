@@ -32,19 +32,15 @@ func _on_pressed() -> void:
 	var current_level: int = GameState.get_upgrade_level(upgrade_data.id)
 	var cost: float = upgrade_data.get_cost_for_level(current_level)
 	
-	# Attempt purchase through GameState
-	var success: bool = GameState.purchase_upgrade(
+	# Purchase upgrade with stat modifier through GameState
+	# This keeps all game logic in GameState
+	GameState.purchase_upgrade_with_stat(
 		upgrade_data.id,
 		cost,
-		upgrade_data.currency_type
+		upgrade_data.currency_type,
+		upgrade_data.stat_to_modify,
+		upgrade_data.stat_modifier_per_level
 	)
-	
-	if success and upgrade_data.stat_to_modify != "":
-		# Apply stat modifier if defined
-		GameState.modify_stat(
-			upgrade_data.stat_to_modify,
-			upgrade_data.stat_modifier_per_level
-		)
 
 func _on_currency_changed(_currency_type: String, _new_amount: float) -> void:
 	_update_display()
@@ -67,7 +63,7 @@ func _update_display() -> void:
 		name_label.text = upgrade_data.display_name
 	
 	if cost_label:
-		cost_label.text = "Cost: " + _format_number(cost) + " " + upgrade_data.currency_type
+		cost_label.text = "Cost: " + FormatUtils.format_number(cost) + " " + upgrade_data.currency_type
 	
 	if level_label:
 		if upgrade_data.max_level > 0:
@@ -78,14 +74,3 @@ func _update_display() -> void:
 	# Update button state
 	disabled = not can_afford or not can_level
 	text = upgrade_data.display_name if name_label == null else ""
-
-## Format large numbers in a readable way
-func _format_number(num: float) -> String:
-	if num < 1000:
-		return str(int(num))
-	elif num < 1000000:
-		return "%.2fK" % (num / 1000.0)
-	elif num < 1000000000:
-		return "%.2fM" % (num / 1000000.0)
-	else:
-		return "%.2fB" % (num / 1000000000.0)

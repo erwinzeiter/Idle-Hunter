@@ -23,22 +23,4 @@ func _on_stat_changed(changed_stat_name: String, _new_value: float) -> void:
 
 func _update_display() -> void:
 	var value: float = GameState.get_stat(stat_name)
-	text = format_string % _format_number(value)
-
-## Format numbers appropriately
-func _format_number(num: float) -> String:
-	# For percentages (stats like crit_chance)
-	if stat_name.contains("chance"):
-		return "%.1f%%" % (num * 100.0)
-	
-	# For multipliers
-	if stat_name.contains("multiplier"):
-		return "%.2fx" % num
-	
-	# For regular numbers
-	if num < 1000:
-		return "%.1f" % num
-	elif num < 1000000:
-		return "%.2fK" % (num / 1000.0)
-	else:
-		return "%.2fM" % (num / 1000000.0)
+	text = format_string % FormatUtils.format_stat(stat_name, value)

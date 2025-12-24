@@ -23,15 +23,4 @@ func _on_currency_changed(changed_currency_type: String, new_amount: float) -> v
 
 func _update_display() -> void:
 	var amount: float = GameState.get_currency(currency_type)
-	text = format_string % _format_number(amount)
-
-## Format large numbers in a readable way
-func _format_number(num: float) -> String:
-	if num < 1000:
-		return str(int(num))
-	elif num < 1000000:
-		return "%.2fK" % (num / 1000.0)
-	elif num < 1000000000:
-		return "%.2fM" % (num / 1000000.0)
-	else:
-		return "%.2fB" % (num / 1000000000.0)
+	text = format_string % FormatUtils.format_number(amount)

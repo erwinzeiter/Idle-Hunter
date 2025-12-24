@@ -168,6 +168,14 @@ func purchase_upgrade(upgrade_id: String, cost: float, currency_type: String = "
 	
 	return false
 
+## Purchase an upgrade and apply its stat modifier (returns true if successful)
+func purchase_upgrade_with_stat(upgrade_id: String, cost: float, currency_type: String, stat_name: String, stat_modifier: float) -> bool:
+	if purchase_upgrade(upgrade_id, cost, currency_type):
+		if stat_name != "":
+			modify_stat(stat_name, stat_modifier)
+		return true
+	return false
+
 ## Get current level of an upgrade
 func get_upgrade_level(upgrade_id: String) -> int:
 	return upgrades.get(upgrade_id, 0)
