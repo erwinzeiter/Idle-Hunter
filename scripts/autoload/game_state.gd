@@ -204,7 +204,7 @@ func get_passive_income_rate(currency_type: String) -> float:
 	var base_rate: float = 0.0
 	
 	# Example: Calculate based on upgrades
-	if upgrade_purchased and has_upgrade("passive_income_1"):
+	if has_upgrade("passive_income_1"):
 		base_rate += get_upgrade_level("passive_income_1") * 1.0
 	
 	return base_rate

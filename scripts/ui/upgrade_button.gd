@@ -8,13 +8,13 @@ extends Button
 @export var upgrade_data: UpgradeData
 
 ## Label to show upgrade name
-@onready var name_label: Label = $VBoxContainer/NameLabel if has_node("VBoxContainer/NameLabel") else null
+@onready var name_label: Label = get_node_or_null("VBoxContainer/NameLabel")
 
 ## Label to show cost
-@onready var cost_label: Label = $VBoxContainer/CostLabel if has_node("VBoxContainer/CostLabel") else null
+@onready var cost_label: Label = get_node_or_null("VBoxContainer/CostLabel")
 
 ## Label to show current level
-@onready var level_label: Label = $VBoxContainer/LevelLabel if has_node("VBoxContainer/LevelLabel") else null
+@onready var level_label: Label = get_node_or_null("VBoxContainer/LevelLabel")
 
 func _ready() -> void:
 	# Connect signals
@@ -39,13 +39,12 @@ func _on_pressed() -> void:
 		upgrade_data.currency_type
 	)
 	
-	if success:
+	if success and upgrade_data.stat_to_modify != "":
 		# Apply stat modifier if defined
-		if upgrade_data.stat_to_modify != "":
-			GameState.modify_stat(
-				upgrade_data.stat_to_modify,
-				upgrade_data.stat_modifier_per_level
-			)
+		GameState.modify_stat(
+			upgrade_data.stat_to_modify,
+			upgrade_data.stat_modifier_per_level
+		)
 
 func _on_currency_changed(_currency_type: String, _new_amount: float) -> void:
 	_update_display()

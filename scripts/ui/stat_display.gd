@@ -28,8 +28,12 @@ func _update_display() -> void:
 ## Format numbers appropriately
 func _format_number(num: float) -> String:
 	# For percentages (stats like crit_chance)
-	if stat_name.contains("chance") or stat_name.contains("multiplier"):
-		return "%.1f%%" % (num * 100.0) if stat_name.contains("chance") else "%.2fx" % num
+	if stat_name.contains("chance"):
+		return "%.1f%%" % (num * 100.0)
+	
+	# For multipliers
+	if stat_name.contains("multiplier"):
+		return "%.2fx" % num
 	
 	# For regular numbers
 	if num < 1000:

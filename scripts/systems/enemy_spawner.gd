@@ -17,6 +17,10 @@ signal enemy_killed(enemy_type: String, souls_reward: float)
 ## Maximum active enemies
 @export var max_enemies: int = 10
 
+## Spawn area boundaries
+@export var spawn_area_min: Vector2 = Vector2(100, 100)
+@export var spawn_area_max: Vector2 = Vector2(1820, 980)
+
 var _active_enemy_count: int = 0
 var _spawn_timer: float = 0.0
 
@@ -38,8 +42,8 @@ func _try_spawn_enemy() -> void:
 		return
 	
 	# Random spawn position (this is game logic, not rendering)
-	var spawn_x: float = randf_range(100, 1820)
-	var spawn_y: float = randf_range(100, 980)
+	var spawn_x: float = randf_range(spawn_area_min.x, spawn_area_max.x)
+	var spawn_y: float = randf_range(spawn_area_min.y, spawn_area_max.y)
 	var spawn_pos := Vector2(spawn_x, spawn_y)
 	
 	_active_enemy_count += 1
